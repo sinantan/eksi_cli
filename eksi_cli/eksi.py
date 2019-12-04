@@ -1,6 +1,6 @@
 import sys
 from termcolor import colored
-import cli
+import scraper
 
 
 """ for i in range(1,11):
@@ -27,8 +27,10 @@ class Eksicli():
         |_______||__|\__\ |_______/    |__|     \______||_______||__|        \__/      |_| 
 
 
+         
+         Kullanım -> komut [ayar]
+
          Komutlar:
-         komut [ayarlar]
          gundem [başlık sayısı(opsiyonel)]
          ara [başlık veya kullanıcı flagi] [başlık veya kullanıcı adı]
 
@@ -39,23 +41,21 @@ class Eksicli():
                 -b, -baslik
                 -k, -kullanici
 
-        Örnek: Kullanıcı adı eksi olan kullanıcıyı ara.
+        Örnek kullanım: Kullanıcı adı eksi olan kullanıcıyı ara.
                 ara -k eksi
         """)
         #command = input(">:")
         if sys.argv[1]=="gundem":
-            print(self.list_subject(sys.argv[2]))
+            print(self.find_subject(sys.argv[2]))
         
-    def input(self):
-        pass
 
-    def list_subject(self,feed="popular",limit=50):
+    def list_feed(self,feed="popular",limit=50):
         return feed
 
-    def get_subject(self,queue,page=1):
+    def find_subject(self,subject_name):
         pass
     
-    def get_user(self,username):
+    def find_user(self,username):
         pass
 
     
