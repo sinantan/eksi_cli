@@ -38,35 +38,45 @@ class Eksicli():
     def __init__(self):
         self.base_url="https://eksisozluk.com"
         self.profile_url = "https://eksisozluk.com/biri/"
+        self.process = ""
 
+    
     def run(self):
-        if len(sys.argv)>1:
-            if sys.argv[1]=="gundem":
-                if len(sys.argv)>2:
-                    print(self.list_feed(sys.argv[2]))
-                else:
-                    print(self.list_feed())
-            elif sys.argv[1]=="ara":
-                if sys.argv[2]=="-b" or sys.argv[2]=="-baslik":
-                    print(self.find_subject(sys.argv[3]))
-                elif sys.argv[2]=="-k" or sys.argv[2]=="-kullanici":
-                    print(self.find_user(sys.argv[3]))
-                else:
-                    print("Geçersiz komut.")
-            elif sys.argv[1]=="help" or sys.argv[1]=="yardim":
-                print(helpText)
-            else:
-                print("Geçersiz komut.")
-        else:
-            print("Lütfen parametre giriniz.")
+        print("ekşi komut satırı arayüzüne hoş geldiniz.")
+        self.process = input("Ekşi cli >: ")
+        self.command_filter(self.process)
 
-    def list_feed(self,feed="popular",limit=50):
+    def command_filter(self,process):
+        splitted=process.split()
+     
+        if len(splitted)>1:
+            if splitted[0] == "ara":
+                self.find_user(splitted[2]) if splitted[1]=="-k" or splitted[1] == "kullanici" else None
+                self.find_subject(splitted[2]) if splitted[1]=="-b" or splitted[1] == "baslik" else None
+            if splitted[0] == "gundem":
+                self.list_feed(splitted[0],splitted[1])
+        elif splitted[0]=="gundem":
+            self.list_feed()
+
+        
+
+
+    def list_feed(self,feed="gundem",limit=50):
+        print(colored(" 1- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(252)", 'red'))
+        print(colored(" 2- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(98)", 'yellow'))
+        print(colored(" 3- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(121)", 'yellow'))
+        print(colored(" 4- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(34)", 'blue'))
+        print(colored(" 5- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(321)", 'magenta'))
+        print(feed)
+        print(limit)
         return feed
 
     def find_subject(self,subject_name):
+        print(subject_name)
         return subject_name
     
     def find_user(self,username):
+        print(username)
         return username
 
     
