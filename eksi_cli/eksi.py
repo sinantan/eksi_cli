@@ -1,7 +1,7 @@
 import sys
 from termcolor import colored
 from scraper import Scraper
-
+import os
 
 """ for i in range(1,11):
     number = str(i) + "."
@@ -32,18 +32,17 @@ helpText="""
                 Örnek kullanım: Kullanıcı adı eksi olan kullanıcıyı ara.
                         ara -k eksi
         """
-
 class Eksicli():
 
     def __init__(self):
         self.base_url="https://eksisozluk.com"
         self.profile_url = "https://eksisozluk.com/biri/"
         self.process = "" #kullanıcıdan alınacak girdi
-
+        self.os_name = os.name
     
     def run(self):
-        print("ekşi komut satırı arayüzüne hoş geldiniz.")
-        self.process = input("Ekşi cli >: ")
+        self.clear_console()
+        self.process = input("ekşi cli >: ")
         self.command_filter(self.process) #gelen girdiyi işlemek için parçalıyoruz.
 
     def command_filter(self,process):
@@ -51,7 +50,7 @@ class Eksicli():
         if len(splitted)>1: #eğer girdi gundem veya help ise dizi boyutu 1 olacağından buraya girmiyor.
             search_type = splitted[1]
             if splitted[0] == "ara":    
-                input_to_find = "-".join([i for i in splitted if splitted.index(i) >= 2 ]) #komutları içeren dizimizin içinden aranacak başlık veya kullanıcı adını ayırıyoruz.
+                input_to_find = "-".join([i for i in splitted if splitted.index(i) >= 2 ]) #komutları içeren dizimizin içinden aranacak başlık veya kullanıcı adını bulup "-" ile ayırıyoruz.
                 self.find_user(input_to_find) if search_type=="-k" or search_type == "kullanici" else None
                 self.find_subject(input_to_find) if search_type=="-b" or search_type == "baslik" else None
             if splitted[0] == "gundem":
@@ -65,25 +64,39 @@ class Eksicli():
 
 
     def list_feed(self,feed="gundem",limit=50):
+        self.clear_console()
         print(colored(" 1- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(252)", 'red'))
         print(colored(" 2- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(98)", 'yellow'))
         print(colored(" 3- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(121)", 'yellow'))
         print(colored(" 4- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(34)", 'blue'))
         print(colored(" 5- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(321)", 'magenta'))
-        print(feed)
-        print(limit)
-        return feed
+        print(feed,limit)
+        subject_number = input("Başlık numarası: ")
+        self.show_subject(subject_number)
+
+    def show_subject(self,row):
+        self.clear_console()
+        print("Lorem ipsum dolor sit amet. \n"  + colored("19.12.2019 - marsli kedi", 'green'))
+        print(colored(70*"-","cyan"))
+        print("Lorem ipsum dolor sit amet. \n"  + colored("19.12.2019 - marsli kedi", 'green'))
+        print(colored(70*"-","cyan"))
+        print("Lorem ipsum dolor sit amet. \n"  + colored("19.12.2019 - marsli kedi", 'green'))
+        print(colored(70*"-","cyan"))
+        choice = input("Geri dön (1), Ana menü(2)\n>: ")
+        self.list_feed() if choice=="1" else None
+        self.run() if choice=="2" else None
+        
+
 
     def find_subject(self,subject_name):
         print(subject_name)
-        return subject_name
+        
     
     def find_user(self,username):
         print(username)
-        #return username
 
-    
-
+    def clear_console(self):
+        os.system("cls") if self.os_name.find("nt") != -1 else os.system("clear")
 
 if __name__=="__main__":
     eksicli=Eksicli()
