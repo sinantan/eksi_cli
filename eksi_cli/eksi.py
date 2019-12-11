@@ -3,10 +3,6 @@ from termcolor import colored
 from scraper import Scraper
 import os
 
-""" for i in range(1,11):
-    number = str(i) + "."
-    print(colored(number, 'green') + "Lorem ipsum dolor sit amet")
- """
 
 helpText="""
     _______  __  ___      _______. __       ______  __       __     ____    ____  __  
@@ -32,6 +28,10 @@ helpText="""
                 Örnek kullanım: Kullanıcı adı eksi olan kullanıcıyı ara.
                         ara -k eksi
         """
+
+scraper=Scraper()
+
+
 class Eksicli():
 
     def __init__(self):
@@ -44,6 +44,7 @@ class Eksicli():
         self.clear_console()
         self.process = input("ekşi cli >: ")
         self.command_filter(self.process) #gelen girdiyi işlemek için parçalıyoruz.
+        
 
     def command_filter(self,process):
         splitted=process.split()
@@ -63,14 +64,15 @@ class Eksicli():
         
 
 
-    def list_feed(self,feed="gundem",limit=50):
+    def list_feed(self,feed_type="gundem",limit=50):
         self.clear_console()
         print(colored(" 1- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(252)", 'red'))
         print(colored(" 2- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(98)", 'yellow'))
         print(colored(" 3- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(121)", 'yellow'))
         print(colored(" 4- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(34)", 'blue'))
         print(colored(" 5- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(321)", 'magenta'))
-        print(feed,limit)
+        print(feed_type,limit)
+        scraper.feed(feed_type,limit)
         subject_number = input("Başlık numarası: ")
         self.show_subject(subject_number)
 
@@ -96,7 +98,7 @@ class Eksicli():
         print(username)
 
     def clear_console(self):
-        os.system("cls") if self.os_name.find("nt") != -1 else os.system("clear")
+        os.system("cls") if self.os_name.find("nt") != -1 else os.system("clear") #os windows ise cmd'ye cls, unix-linux tabanlı ise clear yazıyor
 
 if __name__=="__main__":
     eksicli=Eksicli()
