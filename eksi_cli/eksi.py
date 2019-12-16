@@ -21,6 +21,8 @@ helpText="""
                 Ayarlar:
                     gundem:
                         başlık sayısı <int>
+                    bugun
+                        başlık sayısı <int>
                     ara:
                         -b, -baslik
                         -k, -kullanici
@@ -65,25 +67,30 @@ class Eksicli():
 
 
     def list_feed(self,feed_type="gundem",limit=50):
-        self.clear_console()
-        print(colored(" 1- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(252)", 'red'))
+
+        """ print(colored(" 1- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(252)", 'red'))
         print(colored(" 2- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(98)", 'yellow'))
         print(colored(" 3- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(121)", 'yellow'))
         print(colored(" 4- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(34)", 'blue'))
         print(colored(" 5- ", 'cyan') + "Lorem ipsum dolor sit amet " + colored("(321)", 'magenta'))
-        print(feed_type,limit)
+        print(feed_type,limit) """
+
+        self.clear_console()
         scraper.feed(feed_type,limit)
         subject_number = input("Başlık numarası: ")
         self.show_subject(subject_number)
 
     def show_subject(self,row):
+
+        """ print("Lorem ipsum dolor sit amet. \n"  + colored("19.12.2019 - marsli kedi", 'green'))
+        print(colored(70*"-","cyan"))
+        print("Lorem ipsum dolor sit amet. \n"  + colored("19.12.2019 - marsli kedi", 'green'))
+        print(colored(70*"-","cyan"))
+        print("Lorem ipsum dolor sit amet. \n"  + colored("19.12.2019 - marsli kedi", 'green'))
+        print(colored(70*"-","cyan")) """
+        
         self.clear_console()
-        print("Lorem ipsum dolor sit amet. \n"  + colored("19.12.2019 - marsli kedi", 'green'))
-        print(colored(70*"-","cyan"))
-        print("Lorem ipsum dolor sit amet. \n"  + colored("19.12.2019 - marsli kedi", 'green'))
-        print(colored(70*"-","cyan"))
-        print("Lorem ipsum dolor sit amet. \n"  + colored("19.12.2019 - marsli kedi", 'green'))
-        print(colored(70*"-","cyan"))
+        scraper.subject(row)
         choice = input("Geri dön (1), Ana menü(2)\n>: ")
         self.list_feed() if choice=="1" else None
         self.run() if choice=="2" else None
@@ -93,7 +100,6 @@ class Eksicli():
     def find_subject(self,subject_name):
         print(subject_name)
         
-    
     def find_user(self,username):
         print(username)
 
