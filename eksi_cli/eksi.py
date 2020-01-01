@@ -22,15 +22,18 @@ helpText="""
                     gundem:
                         başlık sayısı <int>
                     ara:
-                        -b, -baslik
-                        -k, -kullanici
+                        -b, baslik
+                        -k, kullanici
 
-                Örnek kullanım: Kullanıcı adı eksi olan kullanıcıyı ara.
-                        ara -k eksi
+                Örnek: Kullanıcı adı eksi olan kullanıcıyı ara.
+                        ara -k eksi VEYA ara kullanici eksi
+                        ara baslik the witcher
+
+                        iletisim: twitter.com/sinanttan
         """
 
-scraper=Scraper()
 
+scraper=Scraper()  #scrape yapmak için yazdığımız classımızdan obje üretiyoruz.
 
 class Eksicli():
 
@@ -60,8 +63,6 @@ class Eksicli():
             self.list_feed("gundem",25)
         elif splitted[0]=="help" or splitted[0]=="yardim":
             print(helpText)
-
-        
 
 
     def list_feed(self,feed_type="gundem",limit=25):

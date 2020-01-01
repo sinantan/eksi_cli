@@ -24,7 +24,7 @@ class Scraper():
             url = 'https://eksisozluk.com/basliklar/gundem'
             topics = self.request_eksisozluk(url).find("ul",{'class':'topic-list'})
             rows = topics.find_all("li")
-            
+
             for i in rows: #başlıkların url'lerini parçaladık.
                 link = i.find('a')
                 self.topic_links.append(link.get('href')) if link != None else None                
@@ -33,10 +33,12 @@ class Scraper():
             if 'NativeAdPub.push({ target: \'10924\' , id: \'nativespot-unit-10924\'});' in all_topics: all_topics.remove('NativeAdPub.push({ target: \'10924\' , id: \'nativespot-unit-10924\'});')
 
             self.topics_fixed = [i for i in all_topics if i!=''] #listedeki boş alanları feed'e dahil etmiyoruz.
+
             
+
             for i in range(int(limit)): #başlıkları yazdırıyoruz
-                print(colored(str(i+1),'cyan'), self.topics_fixed[i], colored(self.topics_fixed[i].split()[-1],'green'))
-                
+                print(colored(str(i+1),'cyan'), *self.topics_fixed[i].split()[:len(self.topics_fixed[i].split())-1], colored("("+self.topics_fixed[i].split()[-1]+")",'green'))
+                #print in içinde 2. ifadede entry adı ve entry sayısı içeren stringi dizi haline getirip son öğesi hariç diğerlerini bastık çünkü entry sayısını ayrı olarak renkli yazmak istiyorum.
 
 
 
@@ -44,8 +46,21 @@ class Scraper():
         url = self.profile_url + username
         data = self.request_eksisozluk(url)
         user_badge_div = data.find('ul',{'id':'user-badges'})
-        user_badges = [i.text for i in user_badge_div.find_all('li')]
-        print(*user_badges,sep=" - ")
+        user_entry_stats_div = data.find('ul',{'id':'user-entry-stats'})
+        
+        user_badges = " - ".join([i.text for i in user_badge_div.find_all('li')])
+        user_entry_stats = " / ".join([i.text.strip() for i in user_entry_stats_div.find_all('li')])
+
+        print(f"""
+        ____________________________________________________________________________________
+         {colored('yazar: ','cyan')} {username.strip()}
+       |------------------------------------------------------------------------------------|
+         {colored('rozetler: ','cyan')} {user_badges.strip()}
+       |------------------------------------------------------------------------------------|
+         {colored('entryler (toplam/son 1 ay/son 1 hafta/son 24 saat): ','cyan')} {user_entry_stats}
+       |____________________________________________________________________________________|
+
+        """)
 
     def subject(self,type="selected",row=None, subject_name=None):
         if row!=None: #eğer row verildiyse başlık listeden seçilmiş demektir.
@@ -75,7 +90,7 @@ class Scraper():
             else:
                 full_page = str(self.request_eksisozluk(url))
                 econtent_id = full_page.index("'econtentid': ")
-                url_suffix = full_page[econtent_id+15:econtent_id+20:1] #html sayfasının içinde aranacak başlığın url son ekini alıyoruz
+                url_suffix = full_page[econtent_id+15:econtent_id+22:1] #html sayfasının içinde aranacak başlığın url son ekini alıyoruz
                 page_number = 1
                 separator = 110 * "-"
                 while True:
@@ -89,6 +104,7 @@ class Scraper():
                             print(colored(i.find('div',{'class':'info'}).text.strip(),'cyan'))
                             print(colored(separator,'green'))
                         page_number=page_number+1
+                       
 
                     except AttributeError:
                         break
